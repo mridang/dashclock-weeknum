@@ -43,7 +43,7 @@ public class WeeknumWidget extends DashClockExtension {
 		try {
 
 			Calendar calCalendar = new GregorianCalendar();
-			SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM");
+			SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM");
 			
 			Calendar calWeek = Calendar.getInstance();
 			calWeek.clear();
