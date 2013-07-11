@@ -55,7 +55,8 @@ public class WeeknumWidget extends DashClockExtension {
 			calWeek.add(Calendar.DAY_OF_WEEK, 6);
 			String strEnd = dateFormat.format(calWeek.getTime());
 			
-			edtInformation.status(String.format(getString(R.string.status), calCalendar.get(Calendar.WEEK_OF_YEAR)));
+			edtInformation.expandedTitle(String.format(getString(R.string.status), calCalendar.get(Calendar.WEEK_OF_YEAR)));
+			edtInformation.status(Integer.toString(calCalendar.get(Calendar.WEEK_OF_YEAR)));
 			edtInformation.expandedBody(String.format(getString(R.string.message), strStart, strEnd));
 
 		} catch (Exception e) {
