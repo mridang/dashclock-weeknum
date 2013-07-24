@@ -3,7 +3,13 @@ package com.mridang.weeknum;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Random;
 
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.net.Uri;
 import android.util.Log;
 
 import com.bugsense.trace.BugSenseHandler;
@@ -34,8 +40,6 @@ public class WeeknumWidget extends DashClockExtension {
 	@Override
 	protected void onUpdateData(int arg0) {
 
-		setUpdateWhenScreenOn(true);
-
 		Log.d("WeeknumWidget", "Calculating the current week number");
 		ExtensionData edtInformation = new ExtensionData();
 		edtInformation.visible(true);
@@ -44,20 +48,51 @@ public class WeeknumWidget extends DashClockExtension {
 
 			Calendar calCalendar = new GregorianCalendar();
 			SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM");
-			
+
 			Calendar calWeek = Calendar.getInstance();
 			calWeek.clear();
 			calWeek.set(Calendar.WEEK_OF_YEAR, calCalendar.get(Calendar.WEEK_OF_YEAR));
 			calWeek.set(Calendar.YEAR, calCalendar.get(Calendar.YEAR));
 
 			String strStart = dateFormat.format(calWeek.getTime());
-			
+
 			calWeek.add(Calendar.DAY_OF_WEEK, 6);
 			String strEnd = dateFormat.format(calWeek.getTime());
-			
+
 			edtInformation.expandedTitle(String.format(getString(R.string.status), calCalendar.get(Calendar.WEEK_OF_YEAR)));
 			edtInformation.status(Integer.toString(calCalendar.get(Calendar.WEEK_OF_YEAR)));
 			edtInformation.expandedBody(String.format(getString(R.string.message), strStart, strEnd));
+
+			if (new Random().nextInt(5) == 0) {
+
+				PackageManager mgrPackages = getApplicationContext().getPackageManager();
+
+				try {
+
+					mgrPackages.getPackageInfo("com.mridang.donate", PackageManager.GET_META_DATA);
+
+				} catch (NameNotFoundException e) {
+
+					Integer intExtensions = 0;
+
+					for (PackageInfo pkgPackage : mgrPackages.getInstalledPackages(0)) {
+
+						intExtensions = intExtensions + (pkgPackage.applicationInfo.packageName.startsWith("com.mridang.") ? 1 : 0); 
+
+					}
+
+					if (intExtensions > 1) {
+
+						edtInformation.visible(true);
+						edtInformation.clickIntent(new Intent(Intent.ACTION_VIEW).setData(Uri.parse("market://details?id=com.mridang.donate")));
+						edtInformation.expandedTitle("Please consider a one time purchase to unlock.");
+						edtInformation.expandedBody("Thank you for using " + intExtensions + " extensions of mine. Click this to make a one-time purchase or use just one extension to make this disappear.");
+
+					}
+
+				}
+
+			}
 
 		} catch (Exception e) {
 			Log.e("WeeknumWidget", "Encountered an error", e);
@@ -69,7 +104,7 @@ public class WeeknumWidget extends DashClockExtension {
 		Log.d("WeeknumWidget", "Done");
 
 	}
-	
+
 	/*
 	 * @see com.google.android.apps.dashclock.api.DashClockExtension#onDestroy()
 	 */
