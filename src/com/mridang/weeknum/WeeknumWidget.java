@@ -87,11 +87,14 @@ public class WeeknumWidget extends DashClockExtension {
 						edtInformation.clickIntent(new Intent(Intent.ACTION_VIEW).setData(Uri.parse("market://details?id=com.mridang.donate")));
 						edtInformation.expandedTitle("Please consider a one time purchase to unlock.");
 						edtInformation.expandedBody("Thank you for using " + intExtensions + " extensions of mine. Click this to make a one-time purchase or use just one extension to make this disappear.");
+						setUpdateWhenScreenOn(true);
 
 					}
 
 				}
 
+			} else {
+				setUpdateWhenScreenOn(false);
 			}
 
 		} catch (Exception e) {
