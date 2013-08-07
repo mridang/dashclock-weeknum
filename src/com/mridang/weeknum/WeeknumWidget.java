@@ -42,7 +42,7 @@ public class WeeknumWidget extends DashClockExtension {
 
 		Log.d("WeeknumWidget", "Calculating the current week number");
 		ExtensionData edtInformation = new ExtensionData();
-		edtInformation.visible(true);
+		setUpdateWhenScreenOn(false);
 
 		try {
 
@@ -98,6 +98,7 @@ public class WeeknumWidget extends DashClockExtension {
 			}
 
 		} catch (Exception e) {
+			edtInformation.visible(false);
 			Log.e("WeeknumWidget", "Encountered an error", e);
 			BugSenseHandler.sendException(e);
 		}
