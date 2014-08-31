@@ -1,9 +1,9 @@
 <resources>
 
     <string name="extension_name">Week Number</string>
-    <string name="status">Week number — %1$s</string>
+    <string name="status">Current week number is %1$s</string>
     <string name="application_name">Dashclock Week Number Extension</string>
     <string name="extension_info">Displays information about the current week.</string>
-	<string name="message">%1$s - %2$s</string>
+	<string name="message">%1$s to %2$s</string>
 
 </resources>
